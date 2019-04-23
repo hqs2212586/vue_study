@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--<input type="text" name="" v-model="msg">-->
+        <!--<p>{{msg}}</p>-->
+
+        <!--<span>Multiline message is:</span>-->
+        <!--<p style="white-space: pre-line">{{ message }}</p>-->
+        <!--<br>-->
+        <!--<textarea v-model="message" placeholder="add multiple lines"></textarea>-->
+
+        <!--<input type="checkbox" id="checkbox" v-model="checked">-->
+        <!--<label for="checkbox">{{ checked }}</label>-->
+
+        <!--<input type="checkbox" id="jack" value="Jack" v-model="checkedNames">-->
+        <!--<label for="jack">Jack</label>-->
+        <!--<input type="checkbox" id="john" value="John" v-model="checkedNames">-->
+        <!--<label for="john">John</label>-->
+        <!--<input type="checkbox" id="mike" value="Mike" v-model="checkedNames">-->
+        <!--<label for="mike">Mike</label>-->
+        <!--<br>-->
+        <!--<span>Checked names: {{ checkedNames }}</span>-->
+
+        <!--<input type="radio" id="one" value="One" v-model="picked">-->
+        <!--<label for="one">One</label>-->
+        <!--<br>-->
+        <!--<input type="radio" id="two" value="Two" v-model="picked">-->
+        <!--<label for="two">Two</label>-->
+        <!--<br>-->
+        <!--<span>Picked: {{ picked }}</span>-->
+
+        <!--<select v-model="selected" multiple style="width: 50px;">-->
+            <!--<option>A</option>-->
+            <!--<option>B</option>-->
+            <!--<option>C</option>-->
+        <!--</select>-->
+        <!--<br>-->
+        <!--<span>Selected: {{ selected }}</span>-->
+
+
+        <!--<select v-model="selected">-->
+            <!--<option v-for="option in options" v-bind:value="option.value">-->
+                <!--{{ option.text }}-->
+            <!--</option>-->
+        <!--</select>-->
+        <!--<span>Selected: {{ selected }}</span>-->
+
+        <!-- 当选中时，`picked` 为字符串 "a" -->
+        <input type="radio" v-model="picked" value="a">
+
+        <!-- `toggle` 为 true 或 false -->
+        <input type="checkbox" v-model="toggle">
+
+        <!-- 当选中第一个选项时，`selected` 为字符串 "abc" -->
+        <select v-model="selected">
+            <option value="abc">ABC</option>
+        </select>
+    </div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                selected: 'A',
+
+            }
+        })
+    </script>
+</body>
+</html>

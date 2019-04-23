@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        var Vheader = {     // 先声明头部组件
+            template:`
+                <header class="head">
+                    <h3>{{title}}</h3>    // 模板语法渲染title
+                    <span>{{count}}</span>
+                    <button @click = 'count+=1'>点击</button>
+                </header>
+            `,
+            data(){
+                return {
+                    count: 0
+                }
+            },
+            props:['title'],     // props接收title
+            methods:{
+
+            }
+        };
+
+
+        var Vmain = {       // 局部组件
+            template:`
+                <div class='main'>
+                    <a href="#">{{title}}</a>
+                    <Vheader v-bind:title = 'title'></Vheader>
+                    <div class="wrap">
+                        <Vaside/>
+                        <Vcontent/>
+                    </div>
+                </div>
+            `,
+            components:{
+                // 等价于Vheader:Vheader,当两个词一模一样时可以这样简写：
+                Vheader,     // 挂载子组件：头部组件
+                Vaside,      // 挂载子组件：侧边栏组件
+                Vcontent
+            },
+            props:['title']
+        };
+
+
+        new Vue({
+            el:"#app",   // 注意一个vue里面只有一个el
+            //第三步.使用子组件
+            template:"<Vmain v-bind:title='text'/>",    // title对应属性名
+            data: {
+                text:"alex是SB"   // 在data中设置text
+            },
+            components:{
+                //第二步.挂载子组件 key表示组件名  value表示组件对象
+                Vmain:Vmain
+            }
+        });
+    </script>
+</body>
+</html>

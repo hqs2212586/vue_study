@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript">
+        // 全域组件
+        Vue.component('subComp',{
+            template:`<div></div>`
+        });
+
+        var App={  // 局部组件创建
+            template:`<div>
+                    <subComp ref="subc"></subComp>
+                    <button ref="btn">我是按钮</button>
+                    <p ref="sb">alex</p>
+                </div>`,
+            beforeCreate(){   // 在当前组件创建之前调用
+                console.log(this.$refs.btn);   // 拿不到值，输出:undefined
+            },
+            created(){        // 在当前组件创建之后调用
+                console.log(this.$refs.btn);   // 输出:undefined,此时this对象已经有refs属性，但是DOM还没有渲染进App组件中
+            },
+            beforeMount(){   // 装载数据到DOM之前会调用
+                console.log(this.$refs.btn);   // 输出:undefined
+            },
+            mounted(){   // 装载数据到DOM之后会调用
+                console.log(this);   // this是一个对象，包含refs属性$refs: {btn: button, sb: p}
+                console.log(this.$refs.btn);  // <button>我是按钮</button>
+
+                // 如果是给组件绑定的ref属性那么this.$refs.subc取到的是组件对象
+                console.log(this.$refs.subc);
+
+                var op = this.$refs.sb;
+                this.$refs.btn.onclick = function () {
+                    console.log(op.innerHTML);   // 点击按钮控制台输出：alex
+                }
+            },
+        };
+
+        new Vue({
+            el: '#app',
+            data(){
+                return{
+
+                }
+            },
+            template: `<App/>`,
+            components:{
+                App
+            }
+        })
+    </script>
+</body>
+</html>

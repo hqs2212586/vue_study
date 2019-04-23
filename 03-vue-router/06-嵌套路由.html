@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="vue.js"></script>
+    <!--1.引入vue-router的对象-->
+    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <!--全局的VueRouter对象 vue-router还提供了两个全局的组件router-link / router-view-->
+    <script type="text/javascript">
+
+        // 嵌套路由：
+        // 需求：进入首页后，点击音乐(/home/music) 电影(/home/movie)
+
+        // 2.让Vue使用该VueRouter创建
+        Vue.use(VueRouter);
+
+        var Home = {
+            // 子路由出口
+            template:`
+                <div>
+                    <br/>
+                    <router-link to="/home/music">音乐</router-link>
+                    <router-link to="/home/movie">电影</router-link>
+
+                    <router-view></router-view>
+                </div>
+            `
+        };
+
+        var Music = {
+            template:`
+                <div>我是音乐</div>
+            `
+        };
+
+        var Movie = {
+            template:`
+                <div>我是电影</div>
+            `
+        };
+
+
+        // 3.创建一个路由对象
+        var router = new VueRouter({
+            // 配置路由对象
+            routes:[
+                {
+                    path:'/',
+                    redirect:'home'
+                    // redirect:{name:'home'}   // 命令路由的方式
+                },
+                {
+                    path:'/home',  // params形式，动态路由参数，以冒号开头
+                    // name:'home',      // 设置路由名称
+                    component:Home,
+                    children:[
+                        // 动态路由匹配表示你的子组件中的结构是不同的
+
+                        // 当访问/home组件时，Home组件的出口是不会渲染任何内容的，
+                        // 这是因为没有匹配到合适的子路由
+                        {
+                            path:'',  // 访问空字符串就表示访问/home了
+                            component:Music   // 默认加载孩子组件Music
+                        },
+                        {
+                            path:'music',  // 自己会默认去拼接斜杠
+                            component:Music  // 对应加载的组件
+                            // children:  // 可以继续配置三层路由
+                        },
+                        {
+                            path:'movie',  // 自己会默认去拼接斜杠
+                            component:Movie  // 对应加载的组件
+                        }
+                    ]
+                },
+            ]
+        });
+
+        var App = {
+            // 路由出口
+            template:`
+                <div>
+                    <!--<router-link :to="{name:'home'}">首页</router-link>-->
+                    <router-link to="/home">首页</router-link>
+                    <router-view></router-view>
+                </div>
+            `,
+        };
+
+        new Vue({
+            el:'#app',
+            components:{
+                App
+            },
+            router,   // router:router, 在key和value相同时可以只写一个
+            template:`<App/>`
+        });
+    </script>
+</body>
+</html>

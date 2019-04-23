@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <h4>{{alexDesc}}</h4>
+        <button @click="clickHandler">修改</button>
+    </div>
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el:'#app',
+        template:'',
+        data(){
+            return {
+                myName:'alex',
+                age:18
+            }
+        },
+        methods:{
+            clickHandler(){
+                console.log(this.alexDesc);
+                this.alexDesc = 'ALEX IS SB!!!';
+            }
+        },
+        computed:{
+            alexDesc:{
+                // setter
+                set:function(newValue) {
+                    console.log(newValue);
+                    this.myName = newValue;
+                },
+                // getter
+                get:function(){
+                    var str = `${this.myName}它的年龄是${this.age}
+                        岁了可以去大保健了`;
+
+                    return str;
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .main {
+            width: 100%;
+        }
+
+        body {
+            color: #fff;
+        }
+
+        .head {
+            width: 100%;
+            height: 70px;
+            background-color: purple;
+            text-align: center;
+            font-size: 20px;
+            line-height: 70px;
+        }
+
+        .wrap {
+            width: 100%;
+            height: 1200px;
+        }
+
+        .wrap .aside {
+            width: 30%;
+            height: 1200px;
+            background-color:green;
+            float: left;    /*侧边栏浮动*/
+        }
+
+        .wrap .content {
+            width: 70%;
+            height: 1200px;
+            background-color: saddlebrown;
+            float: left;    /*内容区浮动*/
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    // 打油诗：先声子再挂子再用子
+
+    var Vheader = {     // 先声明头部组件
+        template:`
+            <header class="head">
+                <h3>{{title}}</h3>
+                <span>{{count}}</span>
+                <button @click = 'count+=1'>点击</button>
+            </header>
+        `,
+        data(){
+            return {
+                count: 0
+            }
+        },
+        props:['title'],
+        methods:{
+
+        }
+    };
+
+    var Vaside = {     // 声明侧边栏组件
+        template:`
+            <div class="aside">
+                我是侧边栏
+            </div>
+
+        `
+    };
+
+    var Vcontent = {     // 声明内容区组件
+        template:`
+            <div class="content">
+                <ul>
+                    <li v-for="post in posts" :key="post.id">   // 对应id
+                        <h3>我的博客标题：{{post.title}}</h3>
+                        <p>我的博客内容：{{post.content}}</p>
+                    </li>
+                </ul>
+                <button @click="changeSize">改变字体大小</button>
+            </div>
+        `,
+        props:['posts'],
+        methods:{   // 声明方法
+            changeSize(){
+                // 通过$emit()方法来触发自定义的事件
+                // 第一个参数是自定义的事件名字；第二个参数就是传递的值。
+                this.$emit('postChangeSize')
+            }
+        }
+    };
+
+    // 第一步.声明入口组件
+    /*
+        1.头部组件
+        2.侧边栏
+        3.内容组件
+        4.脚步组件
+        以上组件分别挂载到入口组件里面去。
+     */
+
+    var Vmain = {       // 局部组件
+        template:`
+            <div class='main' :style="{fontSize:fontsize+'px'}">
+                <a href="#">{{title}}</a>
+                <Vheader v-bind:title = 'title'></Vheader>
+                <div class="wrap">
+                    <Vaside/>
+                    <Vcontent v-bind:posts = 'appPosts' @postChangeSize="fontsize+=1" />    // 绑定自定义属性和自定义事件
+                </div>
+            </div>
+        `,
+        data(){
+            return {
+                fontsize:14   // 默认字体大小为14
+            }
+        },
+        components:{
+            // 等价于Vheader:Vheader,当两个词一模一样时可以这样简写：
+            Vheader,     // 挂载子组件：头部组件
+            Vaside,      // 挂载子组件：侧边栏组件
+            Vcontent
+        },
+        props:['title', 'appPosts']
+    };
+
+    new Vue({
+        el:"#app",   // 注意一个vue里面只有一个el
+        //第三步.使用子组件
+        template:"<Vmain v-bind:title='text' :appPosts = 'posts'/>",    // title对应属性名
+        data: {
+            text:"alex是SB",
+            posts:[
+                {id:1, title:"组件中传值1", content:"通过prop传递数据1"},
+                {id:2, title:"组件中传值2", content:"通过prop传递数据22"},
+                {id:3, title:"组件中传值3", content:"通过prop传递数据333"}
+            ]
+        },
+        components:{
+            //第二步.挂载子组件 key表示组件名  value表示组件对象
+            Vmain:Vmain
+
+        }
+    });
+</script>
+</body>
+</html>

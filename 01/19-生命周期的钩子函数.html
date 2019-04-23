@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <App></App>
+    </div>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript">
+        // 在Test组件中试验钩子函数
+        var Test = {
+            data(){
+                return {
+                    msg:"啊哈哈"
+                }
+            },
+            template:`
+                <div>
+                    <div>{{msg}}</div>
+                    <button @click="changeHandler">修改</button>
+                </div>
+            `,
+            methods:{
+                changeHandler(){
+                    this.msg = this.msg + 'alex';
+                }
+            },
+            beforeCreate(){   // 在当前组件创建之前调用
+                console.log(this.msg);   // 输出undefined，说明当前数据为空
+            },
+            created(){        // 在当前组件创建之后调用
+                // 使用该组件就会触发以上的钩子函数，created中可以操作数据、发送ajax，
+                // 并且可以实现vue对页面的影响，应用主要是：发送Ajax请求
+                console.log(this.msg);  // 控制台输出"啊哈哈"
+                // this.msg="嘿嘿嘿";
+            },
+            beforeMount(){   // 装载数据到DOM之前会调用
+                console.log(document.getElementById('app'));
+            },
+            mounted(){   // 装载数据到DOM之后会调用
+                // 这个地方可以操作DOM
+                // 可以获取到真实存在的DOM元素，vue操作以后的DOM
+                console.log(document.getElementById('app'));
+            },
+            beforeUpdate(){  // 更新之前，调用此钩子，应用：获取原始的DOM
+                console.log(document.getElementById('app').innerHTML);   // 获取所有元素
+            },
+            updated(){        // 更新之后，调用此钩子，应用：获取最新的DOM
+                console.log(document.getElementById('app').innerHTML);   // 获取所有元素
+            },
+            beforeDestroy(){
+                console.log('beforeDestroy');
+            },
+            destroyed(){
+                console.log('destroyed');
+            },
+            activated(){
+                console.log('组件被激活了');
+            },
+            deactivated(){
+                console.log('组件被停用了');
+            }
+        };
+
+        var App = {   // 局部组件
+            data(){
+                return {
+                    isShow:true
+                }
+            },
+            template:`
+                <div>
+                    <keep-alive>
+                        <Test v-if="isShow"></Test>
+                    </keep-alive>
+                    <button @click="changeHandler">改变组件的生死</button>
+                </div>
+            `,
+            methods:{
+                changeHandler(){
+                    this.isShow = !this.isShow;
+                }
+            },
+            components:{  // 挂载Test组件
+                Test
+            }
+        };
+
+        // 创建 销毁
+        new Vue({
+            el:'#app',
+            template:``,
+            components:{  // 挂载组件
+                App
+            }
+        });
+    </script>
+</body>
+</html>

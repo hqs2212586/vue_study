@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        ul li{
+            margin: 30px 20px;
+            padding: 10px;
+        }
+        ul li.active{
+            background-color: #20FFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="music">
+        <audio v-bind:src="currentSrc" controls=""
+               autoplay=""></audio>
+        <ul>
+            <li v-for="(item, index) in musics" @click="clickHandler(index)"
+                :class="{active:currentIndex==index}">   <!--给当前歌曲li添加class=active-->
+                <h3>{{item.id}}--歌曲为：{{item.name}}</h3>
+                <p>歌手：{{item.author}}</p>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript">
+        var musicData = [{
+                id:1,
+                name:"那吾克热-水滴石穿",
+                author:"那吾克热",
+                songSrc:'../static/那吾克热-水滴石穿.mp3'
+            },
+            {
+                id:2,
+                name:"Inna-10 Minutes",
+                author:"Inna",
+                songSrc:'../static/10 Minutes.mp3'
+            },
+            {
+                id:3,
+                name:"Devotion-My_Prayer",
+                author:"Devotion",
+                songSrc:'../static/My_Prayer.mp3'
+            }
+        ];
+
+        new Vue({
+            el:'#music',
+            data(){
+                return {
+                    musics:musicData,
+                    currentIndex:0
+                    // musicSrc:'../static/那吾克热-水滴石穿.mp3'
+                }
+            },
+            methods:{
+                clickHandler(index){   // 声明点击事件
+                    // alert(index);
+                    this.currentIndex = index;  // 点击事件修改index
+                }
+            },
+            computed:{
+                currentSrc(){  // 实时监听了两个属性：musics、currentIndex
+                    return this.musics[this.currentIndex].songSrc   // 修改的index会导致获取的歌曲资源不同
+                }
+            },
+            template:''
+        });
+    </script>
+</body>
+</html>

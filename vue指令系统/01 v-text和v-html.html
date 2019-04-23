@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--<h3>{{msg}}</h3>-->
+    </div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                // 数据属性
+                msg: 'hello指令系统',
+                msg2: '<a href="#">这是我的数据</a>'
+            },
+            template:`
+                <div>
+                    <h4>{{msg}}</h4>
+                    <h3 v-text='msg2'></h3>
+                    <h2 v-html="msg2"></h2>
+                </div>
+                `
+        })
+    </script>
+</body>
+</html>

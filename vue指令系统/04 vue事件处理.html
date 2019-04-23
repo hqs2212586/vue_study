@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+        .active{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h4>{{msg}}</h4>
+        <!--<div class="box" v-on:click="count+=1">{{count}}</div>-->
+        <!-- v-if v-on -->
+        <!--<div class="box" v-on:click="isShow=false" v-if="isShow"></div>-->
+
+        <!--<div class="box" v-on:click="showHandler()" v-if="isShow"></div>-->
+        <div class="box" v-if="isShow"></div>
+        <button v-on:click="showHandler">{{btnText}}</button>
+
+        <!--v-bind和v-on-->
+        <div class="box" v-bind:class="{active:isYellow}"></div>
+        <button v-on:click="changColor">切换</button>
+    </div>
+
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: "#app",
+            template:``,
+            // data在vue实例化中可以是一个对象，也可以是一个函数
+            // 但是在组件中，data必须是一个函数，函数内容一定return一个对象
+            // 数据驱动视图
+            data:function () {
+                return {
+                    msg: '事件处理',
+                    count:0,
+                    isShow:true,
+                    btnText:'隐藏',
+                    isYellow:false
+                }
+            },
+            // 在vue中所有的事件都声明在methods
+            methods:{
+                showHandler(){    // 等价于showHandler:function(){}
+                    console.log(this);   // vue实例化对象  Vue {_uid: 0, _isVue: true, $options: {…},... _self: Vue, …}
+                    // this.isShow = false;
+
+                    // 点击切换
+                    // if (this.isShow) {
+                    //     this.isShow = false;
+                    //     this.btnText = '显示';
+                    // }else{
+                    //     this.isShow = true;
+                    //     this.btnText = '隐藏';
+                    // }
+                    this.isShow = !this.isShow;   // 简单写法，点击取反
+                },
+                changColor(){
+                    this.isYellow = !this.isYellow;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

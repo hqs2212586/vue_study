@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="./vue.js"></script>
+    <script type="text/javascript">
+
+        var App={  // 局部组件创建
+            data(){
+                return{
+                    isShow:false
+                }
+            },
+            template:`<div>
+                        <input type="text" v-if="isShow" ref="fos"/>
+                    </div>`,
+            mounted(){   // 装载数据到DOM之后会调用
+                // vue实现响应式并不是数据发生变化后DOM立刻发生变化，而是按照一定的策略进行DOM的更新。
+
+                // $nextTick：
+                // 是在下次DOM更新循环结束之后执行的延迟回调，在修改数据之后使用这个方法则可以在回调中获取更新之后的DOM
+
+                this.isShow = true;
+                console.log(this.$refs.fos);   // 输出undefined
+                // focus() 方法用于给予该元素焦点。
+                // this.$refs.fos.focus();  //
+                this.$nextTick(function () {
+                    // 获取更新之后真实的DOM
+                    this.$refs.fos.focus();
+                })
+            }
+        };
+
+        new Vue({
+            el:'#app',
+            data(){
+                return{
+
+                }
+            },
+            template:`<App/>`,
+            components:{
+                App
+            }
+        })
+
+    </script>
+</body>
+</html>

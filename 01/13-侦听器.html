@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="myName">
+        <h3>{{myName}}</h3>
+        <button @click="clickHandler">修改</button>
+    </div>
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    // new Vue({
+    //     el:'#app',
+    //     template:'',
+    //     data(){
+    //         return {
+    //             myName:'',
+    //             firstName:'wuSir'
+    //         }
+    //     },
+    //     methods:{
+    //         clickHandler(){
+    //             this.myName = 'alex';
+    //         }
+    //     },
+    //     watch:{
+    //         // 检测单个属性  命令式的
+    //         myName:function (value) {   // 通过watch来监听myName属性
+    //             console.log(value);
+    //             if (value === 'alex'){
+    //                 console.log(value + " " + this.firstName +"是sb");
+    //             }
+    //         }
+    //     }
+    // });
+
+    var vm = new Vue({
+        el: '#app',
+        data(){
+            return{
+                myName: '',
+                firstName: 'wuSir',
+            }
+        },
+        methods:{
+            clickHandler(){
+                this.myName = 'alex';
+            }
+        },
+        computed: {
+            fullName: function (value) {   // 计算属性的名字不能与data中属性同名
+                if (value === 'alex') {
+                    console.log(value + " " + this.firstName + "是sb！")
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

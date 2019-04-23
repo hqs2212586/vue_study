@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                // 数据属性
+                msg: 'hello指令系统',
+                // menuList:[    // 数组对象
+                //     {id:1, name:'大腰子', price:60},
+                //     {id:2, name:'宫保鸡丁', price:30},
+                //     {id:3, name:'炸黄花鱼', price:70},
+                //     {id:4, name:'番茄炒蛋', price:10}
+                // ],
+                object:{
+                    name: 'alex',
+                    age: 19,
+                    fav: '喜欢拍av'
+                }
+            },
+            template:`
+                <div>
+                    <h4 v-text="msg"></h4>
+                    <!--<ul>-->
+                        <!--<li v-for="(item, index) in menuList">-->
+                            <!--<h4>{{index}}&#45;&#45;菜名：{{item.name}}</h4>-->
+                            <!--<p>价格：{{item.price}}</p>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                    <ul>
+                        <li v-for="(value, key) in object">
+                            {{key}} ----- {{value}}
+                        </li>
+                    </ul>
+                </div>
+                `
+        })
+    </script>
+</body>
+</html>

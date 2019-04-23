@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #head {
+            width: 100%;
+            height: 80px;
+            background-color: purple;
+        }
+
+        button {
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            border-top-color: rgb(220, 223, 230);
+            border-right-color: rgb(220, 223, 230);
+            border-bottom-color: rgb(220, 223, 230);
+            border-left-color: rgb(220, 223, 230);
+            border-color: #dcdfe6;
+            color: #606266;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .primary {
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+        }
+
+        .success {
+            color: #fff;
+            background-color: #67c23a;
+            border-color: #67c23a;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    // 创建公共组件
+    // 第一个参数是公共组件的名字；第二个参数options
+    Vue.component('Vbtn', {
+        template: `<button class="default" :class="type">
+                <slot></slot>
+            </button>`,
+        props: ['type']
+    });
+
+
+    var Vheader = {   // 这里使用Vheader的缘故是，html5中有header标签
+        template: `<div id="header">
+                <Vbtn>登录</Vbtn>
+                <Vbtn>注册</Vbtn>
+                <Vbtn>提交</Vbtn>
+                <Vbtn>默认按钮</Vbtn>
+                <Vbtn type="primary">主要按钮</Vbtn>
+                <Vbtn type="success">成功按钮</Vbtn>
+           </div>`
+    };
+
+    // 局部组件的使用
+    var App = {
+        template: `<div>
+                <Vheader></Vheader>
+            </div>`,
+        components: {
+            Vheader
+        }
+    };
+
+    new Vue({
+        el: '#app',
+        data() {
+
+        },
+        template: '<App/>',   // 注意一定是闭合标签
+        components: {
+            App
+        }
+    })
+</script>
+</body>
+</html>

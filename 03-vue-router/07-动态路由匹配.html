@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="vue.js"></script>
+    <!--1.引入vue-router的对象-->
+    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <!--全局的VueRouter对象 vue-router还提供了两个全局的组件router-link / router-view-->
+    <script type="text/javascript">
+
+        // 2.让Vue使用该VueRouter创建
+        Vue.use(VueRouter);
+
+        var Timeline = {
+            template:`
+                <div>
+                    <router-link :to="{name:'comDesc', params:{id:'android'}}">Android</router-link>
+                    <router-link :to="{name:'comDesc', params:{id:'frontend'}}">前端</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+
+        var Pins = {
+            template:`
+                <div>
+                    我是沸点
+                </div>
+            `
+        };
+
+        // 共同的子组件
+        var ComDesc = {
+            data(){
+                return{
+                    msg:''
+                }
+            },
+            template:`
+                <div>
+                    我是{{msg}}
+                </div>
+            `,
+            created(){   // 生命周期方法
+                // alert(1);
+                // this.msg = 'android';
+            },
+            watch:{
+                '$route' (to, from) {
+                    // 对路由变化作出响应...
+                    console.log(to);
+                    console.log(from);
+
+                    this.msg = to.params.id;
+                }
+            }
+        };
+
+        // 3.创建一个路由对象
+        var router = new VueRouter({
+            // 配置路由对象
+            routes:[
+                // 动态路由参数以冒号开头
+                {
+                    path:'/timeline',
+                    component:Timeline,
+                    children:[
+                        {
+                            path:"",
+                            component:ComDesc  // 访问Timeline时访问共同组件ComDesc
+                        },
+                        {
+                            path:'/timeline/:id',
+                            name:'comDesc',
+                            component:ComDesc  // 访问子动态路由时，也加载共同组件ComDesc
+                        }
+
+                    ]
+                },
+                {
+                    path:'/pins',
+                    component:Pins
+                }
+            ]
+        });
+
+        var App = {
+            // 路由出口
+            template:`
+                <div>
+                    <router-link to="/timeline">首页</router-link>
+                    <router-link to="/pins">沸点</router-link>
+                    <router-view></router-view>
+                </div>
+            `,
+        };
+
+        new Vue({
+            el:'#app',
+            components:{
+                App
+            },
+            router,   // router:router, 在key和value相同时可以只写一个
+            template:`<App/>`
+        });
+    </script>
+</body>
+</html>

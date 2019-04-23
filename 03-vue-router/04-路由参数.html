@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="vue.js"></script>
+    <!--1.引入vue-router的对象-->
+    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <!--全局的VueRouter对象 vue-router还提供了两个全局的组件router-link / router-view-->
+    <script type="text/javascript">
+
+        // 路由范式
+        //（1）xxx.html#/user/1   params 动态路由参数
+        //（2）xxx.html#/user?userId=2   query 查询
+
+
+        // 2.让Vue使用该VueRouter创建
+        Vue.use(VueRouter);
+
+        var UserParams = {
+            template:`
+                <div>我是用户1</div>
+            `,
+            created(){
+                // 接收参数
+                console.log(this.$route);   // 其中包含params属性
+                console.log(this.$route.params.userId);  // 输出：1
+                // 传参，发送ajax请求
+                console.log(this.$router);  // VueRouter对象
+            }
+        };
+
+        var UserQuery = {
+            template:`
+                <div>我是用户2</div>
+            `,
+            created(){
+                // 接收参数
+                console.log(this.$route);  // 包含query属性，query: {userId: "2"}
+                console.log(this.$route.query.userId);  // 输出：2
+
+                // 传参，发送ajax请求
+                console.log(this.$router);  // VueRouter对象
+            }
+        };
+
+        // 3.创建一个路由对象
+        var router = new VueRouter({
+            // 配置路由对象
+            routes:[
+                {
+                    path:'/user/:userId',  // params形式，动态路由参数，以冒号开头
+                    name:'userp',      // 设置路由名称
+                    component:UserParams
+                },
+                {
+                    path:'/user',
+                    name:'userq',   // 设置路由名称
+                    component:UserQuery
+                }
+            ]
+        });
+
+        var App = {
+            // 不使用to属性访问路由，改用动态命名路由绑定.要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象
+            template:`
+                <div>
+                    <router-link :to="{name:'userp', params:{userId:1}}">用户1</router-link>
+                    <router-link :to="{name:'userq', query:{userId:2}}">用户2</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+
+        new Vue({
+            el:'#app',
+            components:{
+                App
+            },
+            router,   // router:router, 在key和value相同时可以只写一个
+            template:`<App/>`
+        });
+    </script>
+</body>
+</html>

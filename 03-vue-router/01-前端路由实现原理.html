@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--
+        SPA:Single Page Application
+
+        前端路由:
+            1.锚点值 监视
+            2.ajax获取动态的数据
+            3.核心点是锚点值
+
+        前端中的vue\react\angular都很适合做单页面应用
+    -->
+    <a href="#/login">登录页面</a>
+    <a href="#/register">注册页面</a>
+    <div id="app">
+        
+    </div>
+
+    <script type="text/javascript">
+
+        // 获取div
+        var oDiv = document.getElementById('app');
+
+        // 当一个窗口的 hash （URL 中 # 后面的部分）改变时就会触发 onhashchange 事件
+        // onhashchange事件，url上的锚点数据(#/xxx改变)
+        window.onhashchange = function () {
+            console.log(location.hash);
+            // 根据不同的锚点值，对页面不同的切换
+            switch (location.hash) {
+                case '#/login':
+                    oDiv.innerHTML = '<h2>登录页面</h2>';
+                    break;
+                case '#/register':
+                    oDiv.innerHTML = '<h2>注册页面</h2>';
+                    break;
+                default:
+                    // statements_def
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

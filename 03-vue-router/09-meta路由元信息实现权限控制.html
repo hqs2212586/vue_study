@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="vue.js"></script>
+    <!--1.引入vue-router的对象-->
+    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <!--全局的VueRouter对象 vue-router还提供了两个全局的组件router-link / router-view-->
+    <script type="text/javascript">
+
+        // 2.让Vue使用该VueRouter创建
+        Vue.use(VueRouter);
+
+        var Home = {
+            template:`
+                <div>
+                    我是首页
+                </div>
+            `
+        };
+
+        var Questionbank = {
+            template:`
+                <div>
+                    我是题库
+                </div>
+            `
+        };
+
+        // 登录组件
+        var Login = {
+            data(){  // 数据声明
+                return {
+                    name:'',
+                    pwd:''
+                }
+            },
+            template:`
+                <div>
+                    <input type="text" v-model="name"/>
+                    <input type="text" v-model="pwd"/>
+                    <input type="button" value="登录" @click="loginHandler"/>
+                </div>
+            `,
+            methods:{
+                loginHandler(){
+                    // 要登录了
+                    // 存储用户名和密码，保存到localStorage，然后跳转到相应的路由（智能导航）
+                    localStorage.setItem('user', {name:this.name, pwd:this.pwd})
+
+                    // 编程式导航
+                    this.$router.push({name:'questionbank'});
+                }
+            }
+        };
+
+        // 3.创建一个路由对象
+        var router = new VueRouter({
+            // 配置路由对象
+            routes:[
+                // 动态路由参数以冒号开头
+                {
+                    path:'/home',
+                    component:Home,
+                },
+                {
+                    path:'/questionbank',
+                    name:'questionbank',
+                    component:Questionbank,
+                    // 给未来的路由做权限控制
+                    meta:{
+                        // 如果meta对象的auth为true，表明访问该组件时需要登录
+                        auth:true
+                    }
+                },
+                {
+                    path:'/login',
+                    name:'login',
+                    component:Login
+                }
+            ]
+        });
+
+        // 全局的导航守卫（对路由的切换进行守卫）
+        router.beforeEach(function (to, from, next) {
+            console.log(to);
+            console.log(from);
+
+            // 一定要调用next,如果不调用next，那么页面会卡住,路由不再走了
+            if(to.meta.auth){
+                // 用户点击了智能题库的导航，该用户未登录，需要登录判断
+                if (localStorage.getItem('user')){
+                    // 用户登录了，不为空，放行
+                    next();
+                }else{
+                    // 为空进入登录页面
+                    next({path:'/login'});
+                }
+            }else {
+                // 没有点击智能题库，直接放行
+                next();
+            }
+        });
+
+        var App = {
+            // keep-alive组件保持缓存，把router-view渲染的出口缓存起来
+            template:`
+                <div>
+                    <router-link to="/home">首页</router-link>
+                    <router-link to="/questionbank">智能题库</router-link>
+                    <router-link to="/login">登录</router-link>
+                    <a href="javascript:void(0)" @click="clear">退出</a>
+
+                    <keep-alive>
+                        <router-view></router-view>
+                    </keep-alive>
+                </div>
+            `,
+            methods:{
+                clear(){
+                    // 退出
+                    localStorage.removeItem('user');  // 清除保存的用户
+                    this.$router.push('/login');  // 跳转到登录页面
+                }
+            }
+        };
+
+        new Vue({
+            el:'#app',
+            components:{
+                App
+            },
+            router,   // router:router, 在key和value相同时可以只写一个
+            template:`<App/>`
+        });
+    </script>
+</body>
+</html>

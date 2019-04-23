@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="computed">
+        <div>
+            <!--{{msg.split('').reverse().join('')}}-->
+            {{reverseStr}}
+        </div>
+
+        <button @click="clickHandler">修改</button>
+    </div>
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    var com = new Vue({
+        el: "#computed",
+        data:{
+            msg:"Hello World"
+        },
+        methods:{
+          clickHandler(){
+              this.msg = 'Hello Luffy'
+          }
+        },
+        computed:{   // 计算属性: watch监听
+            // 默认只有getter方法
+            reverseStr(){
+                return this.msg.split('').reverse().join('');
+            }
+        }
+    })
+</script>
+</body>
+</html>

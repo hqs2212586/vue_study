@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="vue.js"></script>
+    <!--1.引入vue-router的对象-->
+    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <!--全局的VueRouter对象 vue-router还提供了两个全局的组件router-link / router-view-->
+    <script type="text/javascript">
+        // 2.让Vue使用该VueRouter创建
+        Vue.use(VueRouter);
+
+        var Login = {      // 组件创建
+            template:`
+                <div>登录页面</div>
+            `
+        };
+
+        var Register = {   // 组件创建
+            template:`
+                <div>注册页面</div>
+            `
+        };
+
+        // 3.创建一个路由对象
+        var router = new VueRouter({
+            // 配置路由对象
+            routes:[
+                {
+                    path:'/login',   // login路由
+                    component:Login
+                },
+                {
+                    path:'/register',
+                    component:Register
+                }
+            ]
+        });
+
+        var App = {   // App:入口组件
+            // router-link默认会被渲染为a标签,to属性默认会被渲染为href属性
+            // router-view是路由组件的出口
+            template:`
+                <div>
+                    <router-link to="/login">登录页面</router-link>
+                    <router-link to="/register">注册页面</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        };
+
+        new Vue({   // Vue实例化对象
+            el:'#app',
+            components:{
+                App
+            },
+            router,   // router:router, 在key和value相同时可以只写一个
+            template:`<App/>`   // 入口组件
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- :value是v-bind:value的缩写 -->
+        <!--<input type="text" name="" :value="msg" @input="changeHandler">-->
+        <!--<p>{{msg}}</p>-->
+
+        <input type="checkbox" v-model="toggle" true-value="yes" false-value="no">
+
+        <input type="radio" v-model="pick" v-bind:value="a">
+
+    </div>
+    <!-- Object .defineProperty -->
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                msg: 'alex',
+                a: 'hqs'
+            },
+            methods: {
+                changeHandler(event) {
+                    this.msg = event.target.value
+                }
+            }
+        })
+    </script>
+</body>
+</html>

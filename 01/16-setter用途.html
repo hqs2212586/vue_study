@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="alexDesc">
+        <h4>{{alexDesc}}</h4>
+        <!--<button @click="clickHandler">修改</button>-->
+    </div>
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el:'#app',
+        template:'',
+        data(){
+            return {
+                myName:'',
+            }
+        },
+        computed:{
+            alexDesc:{
+                // setter，给myName赋新值
+                set:function (newValue) {
+                    this.myName = newValue;
+                },
+                // getter，实时监听myName属性的变化
+                get:function(){
+                    return this.myName;
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

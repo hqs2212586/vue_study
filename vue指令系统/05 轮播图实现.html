@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            width: 180px;
+        }
+
+        ul li {
+            float: left;
+            width: 45px;
+            height: 30px;
+            line-height: 30px;
+            background: purple;
+            text-align: center;
+        }
+        ul li.active{
+            background: green;
+        }
+    </style>
+</head>
+<body>
+<div id="slider">
+    <!--默认图片-->
+    <img :src='currentImgSrc' alt="">
+    <ul>
+        <li v-for="(item,index) in imgArr" v-bind:class="
+        {active:currentIndex==index}" v-on:click="clickHandler(index)">
+            {{index+1}}
+        </li>
+    </ul>
+</div>
+<script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    // 数据驱动视图
+    var imgArr = [
+        {id: 1, imgSrc: './img/1.jpg'},
+        {id: 2, imgSrc: './img/2.jpg'},
+        {id: 3, imgSrc: './img/3.jpg'},
+        {id: 4, imgSrc: './img/4.jpg'}
+    ];
+    new Vue({
+        el: "#slider",
+        template:``,
+        data(){
+            return{
+                imgArr: imgArr,   // 数据属性中声明数组
+                currentIndex: 0,
+                currentImgSrc: './img/1.jpg'
+            }
+        },
+        methods: {
+            clickHandler(index){
+                this.currentIndex = index;  // 控制li标签class属性active的切换
+                this.currentImgSrc = this.imgArr[index].imgSrc;   //控制img标签，动态切换图片
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

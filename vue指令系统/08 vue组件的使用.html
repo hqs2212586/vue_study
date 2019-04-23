@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+
+        // 声明头部组件
+        var Vheader = {
+            template: `
+                <header class="head">
+                    我是头部
+                </header>
+            `
+        };
+
+        // 1.声明入口组件
+        /*
+            1.头部组件
+            2.侧边栏
+            3.内容组件
+            4.脚本组件
+         */
+        var Vmain = {
+            template: `
+                <div class="main">
+                    我是入口
+                    <Vheader></Vheader>
+                </div>
+            `,
+            components:{
+                // 2.挂载子组件
+                Vheader,   // 等价于Vheader:Vheader
+            }
+        };
+
+        new Vue({
+            el: '#app',
+            // 3.使用子组件
+            template: `<Vmain/>`,   // 单闭合
+            data: {
+
+            },
+            components: {
+                // 2.声明变量，挂载子组件
+                Vmain: Vmain
+            }
+        });
+    </script>
+</body>
+</html>

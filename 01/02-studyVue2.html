@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            width: 180px;
+        }
+
+        ul li {
+            float: left;
+            width: 30px;
+            height: 30px;
+            background: purple;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="lunbo">
+        <!--默认图片-->
+        <img v-bind:src="currentSrc" @mouseenter="closeTimer" @mouseleave="openTimer">
+        <ul>
+            <li v-for="(item,index) in imgArr" @click="currentHandler(item)">
+                {{index+1}}
+            </li>
+        </ul>
+    </div>
+
+    <button @click="nextImg">下一张</button>
+
+    <div v-html="str"></div>
+</div>
+
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            imgArr: [
+                {id: 1, src: './1.jpg'},
+                {id: 2, src: './2.jpg'},
+                {id: 3, src: './3.jpg'},
+                {id: 4, src: './4.jpg'}
+            ],
+            currentSrc: "./1.jpg",
+            currentIndex: 0,
+            timer: null,   // 声明定时器
+            str: "<p>黑丝爱</p>"
+        },
+        created(){   // 生命周期方法
+            this.timer = setInterval(this.nextImg, 2000);    // 开启定时器
+        },
+        methods: {
+            currentHandler: function (item) {
+                this.currentSrc = item.src
+            },
+            nextImg: function(){
+                if (this.currentIndex==this.imgArr.length-1){   // 到最后一张的时候
+                    this.currentIndex = -1;
+                }
+                this.currentIndex++;
+                this.currentSrc = this.imgArr[this.currentIndex].src;   // 取下一张
+            },
+            closeTimer(){
+                clearInterval(this.timer)   // 取消由 setInterval() 设置的 timeout   清除定时器
+            },
+            openTimer(){
+                this.timer = setInterval(this.nextImg, 1000);  // 开启定时器
+            }
+        }
+    })
+</script>
+</body>
+</html>

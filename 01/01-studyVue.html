@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .box {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        .box2 {
+            background: green;
+        }
+        .box3 {
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!--插值语法react()  angular({})  (%%)  <%=%> -->
+        <h3>{{1>2?"真的":"假的"}}</h3>
+        <div v-if = 'show'>哈哈哈</div>
+        <button v-on:click = "clickHandler">切换</button>
+
+        <div v-if="Math.random() > 0.5">
+            Now you see me
+        </div>
+        <div v-else>
+            Now you don't
+        </div>
+
+        <h3 v-show="isShow" v-bind:title="title">我是一个三级标题</h3>
+
+        <img v-bind:src="imgSrc" v-bind:title="time">
+
+
+        <div class="box" v-bind:class="{box2:isGreen}"></div>
+
+        <button @click="changeColor">切换颜色</button>
+
+        <button v-on:click="count+=1">加{{count}}</button>
+    </div>
+<script type="text/javascript" src="./vue.js"></script>
+<script type="text/javascript">
+    // 指令系统 v-*
+    var app = new Vue({
+        el: "#app",
+        data: {
+            msg: "今天学习vue",
+            show: true,
+            isShow: true,
+            title: "哈哈哈2323",
+            imgSrc: './shiyuan.jpeg',
+            time: `页面加载于${new Date().toLocaleString()}`,
+            isGreen: false,
+            count: 0
+        },
+        methods: {
+            clickHandler: function(){
+                console.log(this);   // this指的是当前的实例化对象
+                this.show = !this.show;
+                this.isShow = !this.isShow;
+            },
+            changeColor: function () {
+                this.isGreen = !this.isGreen;
+            }
+        }
+    })
+</script>
+</body>
+</html>
