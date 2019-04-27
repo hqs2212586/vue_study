@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="./node_modules/axios/dist/axios.js"></script>
+    <script type="text/javascript">
+        var App = {
+            data(){
+                return {
+                    msg: ''
+                }
+            },
+            template:`
+                <div>
+                    <button @click='sendAjax'>发Get请求</button>
+                    <div v-html="msg"></div>
+                    <button @click="sendAjaxByPost">发post请求</button>
+                </div>
+            `,
+            methods:{
+                sendAjax(){
+                    // 发送get请求
+                    axios.get("http://127.0.0.1:8800/"
+                    ).then(res=>{
+                        console.log(res.data);        // <h2>首页</h2>
+                        console.log(typeof res.data);    // string
+                        this.msg = res.data;
+                    }).catch(err=>{   // 有参数括号可以不写
+                        console.log(err);
+                    })
+                },
+                sendAjaxByPost(){
+                    var params = new URLSearchParams();
+                    params.append('name', 'hqs');
+                    // 发送post请求
+                    axios.post('http://127.0.0.1:8800/create', params
+                    ).then(function (res) {
+                        console.log(res);
+                    }).catch(err=>{
+                        console.log(err);
+                    })
+                }
+            }
+        };
+
+        new Vue({
+            el: "#app",
+            data(){
+                return {
+
+                }
+            },
+            components:{
+                App
+            },
+            template: `<App/>`
+        })
+    </script>
+</body>
+</html>
